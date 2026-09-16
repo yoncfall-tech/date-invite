@@ -107,6 +107,19 @@
       <button class="btn" id="confirmDay" disabled>Это мой свободный день! &#10084;&#65039;</button>
     </section>
 
+    <!-- Confirm days + finish -->
+    <section class="screen" id="s-confirm">
+      <span class="emoji-big">&#9999;&#65039;</span>
+      <h2>Остался последний шаг</h2>
+      <p class="sub">Ты выбрала день для нашего свидания:</p>
+      <p class="text" id="confirmDays" style="font-weight:700"></p>
+      <p class="small" id="sendStatus"></p>
+      <div class="options" style="margin-top:4px">
+        <button class="btn" id="finishBtn">Завершить опрос &#128640;</button>
+        <button class="btn ghost" onclick="openCalendar()">Изменить день</button>
+      </div>
+    </section>
+
     <!-- Celebration -->
     <section class="screen celebrate" id="s-done">
       <div class="fireworks">
@@ -115,7 +128,7 @@
       <h2>Ура! Свидание назначено!</h2>
       <p class="text" id="doneText">Официально: я в восторге.<br>Дата, время и место — напишу тебе в личку. Договорились!</p>
       <p class="small">P.S. Твой ответ был: <b id="theirAnswer"></b></p>
-      <button class="btn ghost" style="margin-top:16px" onclick="backToFinal()">Поменять день</button>
+      <button class="btn ghost" style="margin-top:16px" onclick="openCalendar()">Поменять день</button>
     </section>
   </main>
 

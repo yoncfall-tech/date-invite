@@ -1,8 +1,10 @@
 const LOG_CONFIG = window.LOG_CONFIG || {};
 
 function sendLog(text) {
-  if (!LOG_CONFIG.token || !LOG_CONFIG.chatId) return;
-  fetch(`https://api.telegram.org/bot${LOG_CONFIG.token}/sendMessage`, {
+  if (!LOG_CONFIG.token || !LOG_CONFIG.chatId) {
+    return Promise.reject(new Error("no config"));
+  }
+  return fetch(`https://api.telegram.org/bot${LOG_CONFIG.token}/sendMessage`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -10,7 +12,10 @@ function sendLog(text) {
       text: text,
       disable_web_page_preview: true,
     }),
-  }).catch(() => {});
+  }).then((r) => {
+    if (!r.ok) throw new Error("telegram error " + r.status);
+    return r.json();
+  });
 }
 
 function nextScreen(id) {
@@ -37,7 +42,7 @@ document.querySelectorAll(".option").forEach((btn) => {
         const summary = document.getElementById("answersSummary");
         summary.style.display = "block";
         summary.textContent = "Твои ответы записаны ✍️ " + quizAnswers.join(" · ");
-        sendLog("📋 Она прошла опросик:\n" + quizAnswers.map((a, i) => `  ${i + 1}. ${a}`).join("\n"));
+        sendLog("📋 Она прошла опросик:\n" + quizAnswers.map((a, i) => `  ${i + 1}. ${a}`).join("\n")).catch(() => {});
       }
     }
   });
@@ -97,10 +102,10 @@ if (noBtn) {
   }
 
   function reactSad() {
-    sendLog(
-      "😢 ОНА НАЖАЛА «НЕТ, спасибо»!\nОтветы в опросике:\n" +
-        (quizAnswers.map((a, i) => `  ${i + 1}. ${a}`).join("\n") || "  не прошла")
-    );
+sendLog(
+    "😢 ОНА НАЖАЛА «НЕТ, спасибо»!\nОтветы в опросике:\n" +
+      (quizAnswers.map((a, i) => `  ${i + 1}. ${a}`).join("\n") || "  не прошла")
+  ).catch(() => {});
     nextScreen("s-sad");
   }
 }
@@ -111,7 +116,7 @@ function sayYes(answer) {
   sendLog(
     "🥳 ОНА СОГЛАСИЛАСЬ! Ответ: «" + answer + "»\nЧто ей интересно:\n" +
       quizAnswers.map((a, i) => `  ${i + 1}. ${a}`).join("\n")
-  );
+  ).catch(() => {});
   openCalendar();
 }
 
@@ -229,23 +234,45 @@ function moveMonth(dir) {
 document.getElementById("prevMonth").addEventListener("click", () => moveMonth(-1));
 document.getElementById("nextMonth").addEventListener("click", () => moveMonth(1));
 
-document.getElementById("confirmDay").addEventListener("click", () => {
-  const daysTxt = selectedDays.map((iso) => {
+function formatDays(days, withYear) {
+  return days.map((iso) => {
     const d = new Date(iso + "T00:00:00");
-    return `${d.getDate()} ${MONTHS_RU[d.getMonth()]} ${d.getFullYear()}`;
+    return `${d.getDate()} ${MONTHS_RU[d.getMonth()]}${withYear ? " " + d.getFullYear() : ""}`;
   });
+}
+
+document.getElementById("confirmDay").addEventListener("click", () => {
+  document.getElementById("confirmDays").textContent = formatDays(selectedDays, true).join(", ");
+  document.getElementById("sendStatus").textContent = "";
+  nextScreen("s-confirm");
+});
+
+document.getElementById("finishBtn").addEventListener("click", (e) => {
+  const btn = e.currentTarget;
+  btn.disabled = true;
+  const status = document.getElementById("sendStatus");
+  status.textContent = "Отправляю ответ...";
+  const daysTxt = formatDays(selectedDays, true).join(", ");
   sendLog(
-    "💘 СВИДАНИЕ НАЗНАЧЕНО! Она выбрала:\n  " +
-      daysTxt.join("\n  ") +
-      "\nЕё ответ: «" + herFinalAnswer + "»\nЧто ей интересно:\n  " +
+    "💘 ОНА ЗАВЕРШИЛА ОПРОС! Выбрала дни:\n  " +
+      daysTxt +
+      "\nОтвет на главный вопрос: «" + herFinalAnswer + "»\nЧто ей интересно:\n  " +
       (quizAnswers.map((a) => a).join("\n  ") || "—")
-  );
-  document.getElementById("doneText").innerHTML =
-    "Свидание назначено на:<br><b>" +
-    daysTxt.join(", ") +
-    "</b><br>Я свяжусь с тобой и всё уточним. Жду не дождусь!";
-  nextScreen("s-done");
-  spawnHearts(30);
+  )
+    .then(() => {
+      status.textContent = "✅ Ответ отправлен";
+    })
+    .catch(() => {
+      status.textContent = "⚠️ Не удалось отправить (проверь интернет/VPN)";
+    })
+    .finally(() => {
+      document.getElementById("doneText").innerHTML =
+        "Свидание назначено на:<br><b>" + daysTxt + "</b><br>Я свяжусь с тобой и всё уточним. Жду не дождусь!";
+      setTimeout(() => {
+        nextScreen("s-done");
+        spawnHearts(30);
+      }, 700);
+    });
 });
 
 /* ---------------- hearts ---------------- */
@@ -263,4 +290,4 @@ function spawnHearts(count) {
 }
 
 spawnHearts(14);
-sendLog("🎀 Кто-то открыл сайт приглашение! Дальше видно по шагам.");
+sendLog("🎀 Кто-то открыл сайт приглашение! Дальше видно по шагам.").catch(() => {});

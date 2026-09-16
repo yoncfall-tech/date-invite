@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Опросик для тебя 🙂</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="hearts" id="hearts"></div>
+
+  <main class="card">
+    <!-- Intro -->
+    <section class="screen active" id="s-intro">
+      <span class="emoji-big">💌</span>
+      <h1>Тебе пришло приглашение</h1>
+      <p class="sub">Просто так его не открывают, это же секрет</p>
+      <p class="text">Чтобы получить его, нужно пройти маленький опросик.<br>Готова начать?</p>
+      <button class="btn" onclick="nextScreen('s-quiz-1')">Погнали!</button>
+    </section>
+
+    <!-- Quiz 1 -->
+    <section class="screen" id="s-quiz-1">
+      <div class="progress"><div class="progress-fill" style="width:25%"></div></div>
+      <span class="emoji-big">🤔</span>
+      <h2>Вопрос №1</h2>
+      <p class="sub">Как ты относишься к приключениям?</p>
+      <div class="options">
+        <button class="option" data-next="s-quiz-2" data-ans="Обожаю приключения">🎢 <b>Обожаю</b>, давай всегда так!</button>
+        <button class="option" data-next="s-quiz-2" data-ans="Соглашусь на приключение">😌 <b>Соглашусь</b>, если компания хорошая и весёлая</button>
+        <button class="option" data-next="s-quiz-2" data-ans="Немного волнуюсь, но иду">🙈 <b>Немного волнуюсь</b>, но мне интересно</button>
+      </div>
+    </section>
+
+    <!-- Quiz 2 -->
+    <section class="screen" id="s-quiz-2">
+      <div class="progress"><div class="progress-fill" style="width:50%"></div></div>
+      <span class="emoji-big">🍿</span>
+      <h2>Вопрос №2</h2>
+      <p class="sub">Что выберешь для нашего свидания?</p>
+      <div class="options">
+        <button class="option" data-next="s-quiz-3" data-ans="Выбрала кофе и разговоры">☕ <b>Кофе</b> и разговоры обо всём</button>
+        <button class="option" data-next="s-quiz-3" data-ans="Выбрала прогулку под звёздами">🌙 <b>Прогулку</b> под вечерним небом</button>
+        <button class="option" data-next="s-quiz-3" data-ans="Выбрала кино с попкорном">🍿 <b>Кино</b>, попкорн и толстовка побольше</button>
+      </div>
+    </section>
+
+    <!-- Quiz 3 -->
+    <section class="screen" id="s-quiz-3">
+      <div class="progress"><div class="progress-fill" style="width:75%"></div></div>
+      <span class="emoji-big">💖</span>
+      <h2>Вопрос №3</h2>
+      <p class="sub">Последний вопрос, честно!</p>
+      <div class="options">
+        <button class="option" data-next="s-final" data-ans="Идешь ради настроения">😊 Ради <b>настроения</b> и смеха</button>
+        <button class="option" data-next="s-final" data-ans="Идешь ради еды">🍕 Ради <b>ед</b>ы, еда — это любовь</button>
+        <button class="option" data-next="s-final" data-ans="Идешь ради человека рядом">💛 Ради <b>человека</b> рядом</button>
+      </div>
+    </section>
+
+    <!-- Final question -->
+    <section class="screen" id="s-final">
+      <div class="progress"><div class="progress-fill" style="width:100%"></div></div>
+      <span class="emoji-big">🥰</span>
+      <h2>Итак, главный вопрос</h2>
+      <p class="sub">Ты прошла весь опросик, и я должен спросить</p>
+      <p class="text" id="finalText">«Пойдёшь со мной на свидание?»</p>
+      <div class="big-answers">
+        <button class="btn yes yellow" onclick="sayYes('Да!')">Да! &#128525;</button>
+        <button class="btn yes pink" onclick="sayYes('Конечно!')">Конечно! &#10084;&#65039;</button>
+        <button class="btn yes red" onclick="sayYes('Я согласна!')">Я согласна! &#127881;</button>
+      </div>
+      <div class="no-wrap">
+        <button class="btn no" id="noBtn">&#128580; Нет, спасибо</button>
+        <p class="small" id="noHint"></p>
+      </div>
+      <p class="small" id="answersSummary" style="display:none"></p>
+    </section>
+
+    <!-- Celebration -->
+    <section class="screen celebrate" id="s-done">
+      <div class="fireworks">
+        <span class="emoji-big">&#127881;<em>&#10024;</em>&#127881;</span>
+      </div>
+      <h2>Ура! Свидание состоится!</h2>
+      <p class="text">Официально: я в восторге <b id="dot"></b><br>Дата, время и место — напишу тебе в личку. Договорились!</p>
+      <p class="small">P.S. Твой ответ: <b id="theirAnswer"></b></p>
+    </section>
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

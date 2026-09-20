@@ -127,19 +127,24 @@ p.text {
 /* ---------- name input ---------- */
 .name-input {
   width: 100%;
-  max-width: 360px;
-  padding: 13px 18px;
-  border: 2px solid #f0d9e0;
-  border-radius: 40px;
-  background: #fff;
+  padding: 16px 24px;
+  border: 3px solid transparent;
+  border-radius: 60px;
+  background:
+    linear-gradient(#ffffff, #fff7f9) padding-box,
+    linear-gradient(135deg, #ffb3c6, #ff8fab 55%, #ff4d6d) border-box;
+  box-shadow:
+    0 10px 30px rgba(255, 143, 171, 0.30),
+    inset 0 2px 8px rgba(231, 84, 128, 0.08);
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 1.15rem;
   font-weight: 600;
   color: var(--ink);
   text-align: center;
   outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
-  margin: 6px 0 14px;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+  margin: 10px 0 16px;
+  display: block;
 }
 
 .name-input::placeholder {
@@ -148,20 +153,41 @@ p.text {
 }
 
 .name-input:focus {
-  border-color: var(--pink);
-  box-shadow: 0 0 0 4px var(--shadow);
+  border-color: transparent;
+  background:
+    linear-gradient(#ffffff, #fff7f9) padding-box,
+    linear-gradient(135deg, #ff8fab, #ff4d6d 60%, #c9184a) border-box;
+  box-shadow:
+    0 0 0 5px rgba(255, 143, 171, 0.25),
+    0 14px 32px rgba(255, 143, 171, 0.38),
+    inset 0 2px 8px rgba(231, 84, 128, 0.08);
+  transform: translateY(-1px);
 }
 
 .name-input.error {
-  border-color: var(--red);
-  box-shadow: 0 0 0 4px rgba(255, 77, 109, 0.15);
+  border-color: transparent;
+  background:
+    linear-gradient(#ffffff, #fff7f9) padding-box,
+    linear-gradient(135deg, #ffb3c6, #ff4d6d 50%, #c9184a) border-box;
+  box-shadow:
+    0 0 0 5px rgba(255, 77, 109, 0.18),
+    0 14px 32px rgba(255, 77, 109, 0.30),
+    inset 0 2px 8px rgba(231, 84, 128, 0.08);
+  animation: shake 0.3s ease;
 }
 
 .name-hint {
   display: none;
   color: var(--red);
-  font-size: 0.85rem;
-  margin: -6px 0 12px;
+  font-size: 0.9rem;
+  margin: -8px 0 12px;
+  font-weight: 600;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
 }
 
 /* ---------- buttons ---------- */
@@ -316,12 +342,16 @@ p.text {
   background: #fff;
   border: 2px solid #f0d9e0;
   border-radius: 12px;
-  padding: 10px 4px;
-  font-size: 0.9rem;
+  padding: 4px;
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--ink);
   transition: all 0.15s;
   aspect-ratio: 1 / 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
 }
 
 .cal-day:hover {

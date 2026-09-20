@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --pink: #ff8fab;
   --pink-dark: #e75480;
   --red: #ff4d6d;
@@ -402,4 +402,16 @@ p.text {
   font-size: 0.9rem;
   color: var(--pink-dark);
   margin-top: 12px;
+}
+
+#calHint {
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, var(--pink), var(--red));
+  border-radius: 40px;
+  padding: 8px 18px;
+  margin-top: 14px;
+  box-shadow: 0 4px 14px var(--shadow);
 }

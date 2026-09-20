@@ -27,6 +27,26 @@ function backToFinal() {
   nextScreen("s-final");
 }
 
+/* ---------------- name ---------------- */
+let herName = "";
+
+function startQuiz() {
+  const input = document.getElementById("nameInput");
+  const hint = document.getElementById("nameHint");
+  const name = (input.value || "").trim();
+  if (!name) {
+    hint.style.display = "block";
+    input.classList.add("error");
+    input.focus();
+    return;
+  }
+  herName = name;
+  hint.style.display = "none";
+  input.classList.remove("error");
+  sendLog("🙋 Она представилась: «" + herName + "» и начала опросик!").catch(() => {});
+  nextScreen("s-quiz-1");
+}
+
 /* ---------------- quiz ---------------- */
 const quizAnswers = [];
 let herFinalAnswer = "";

@@ -16,7 +16,9 @@
       <h1>Тебе пришло приглашение</h1>
       <p class="sub">Просто так его не открывают, это же секрет</p>
       <p class="text">Чтобы получить его, нужно пройти маленький опросик.<br>Готова начать?</p>
-      <button class="btn" onclick="nextScreen('s-quiz-1')">Погнали!</button>
+      <input class="name-input" id="nameInput" type="text" placeholder="Сначала напиши, как тебя зовут ✍️" maxlength="30" autocomplete="off">
+      <p class="little" id="nameHint" style="display:none;color:var(--red)">Не забудь представиться 😊</p>
+      <button class="btn" onclick="startQuiz()">Погнали!</button>
     </section>
 
     <!-- Quiz 1 -->

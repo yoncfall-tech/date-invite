@@ -124,6 +124,46 @@ p.text {
   transition: width 0.4s ease;
 }
 
+/* ---------- name input ---------- */
+.name-input {
+  width: 100%;
+  max-width: 360px;
+  padding: 13px 18px;
+  border: 2px solid #f0d9e0;
+  border-radius: 40px;
+  background: #fff;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: center;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  margin: 6px 0 14px;
+}
+
+.name-input::placeholder {
+  color: #c79aa7;
+  font-weight: 500;
+}
+
+.name-input:focus {
+  border-color: var(--pink);
+  box-shadow: 0 0 0 4px var(--shadow);
+}
+
+.name-input.error {
+  border-color: var(--red);
+  box-shadow: 0 0 0 4px rgba(255, 77, 109, 0.15);
+}
+
+.name-hint {
+  display: none;
+  color: var(--red);
+  font-size: 0.85rem;
+  margin: -6px 0 12px;
+}
+
 /* ---------- buttons ---------- */
 .btn {
   cursor: pointer;
